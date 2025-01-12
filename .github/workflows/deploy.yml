@@ -1,49 +1,49 @@
 name: Deploy Next.js site to Pages
 
 on:
- push:
-   branches: ["main"]
- workflow_dispatch:
+  push:
+    branches: ["main"]
+  workflow_dispatch:
 
 permissions:
- contents: read
- pages: write
- id-token: write
+  contents: read
+  pages: write
+  id-token: write
 
 concurrency:
- group: "pages"
- cancel-in-progress: false
+  group: "pages"
+  cancel-in-progress: false
 
 jobs:
- build:
-   runs-on: ubuntu-latest
-   env:
-     CONTENTFUL_SPACE_ID: ${{ secrets.CONTENTFUL_SPACE_ID }}
-     CONTENTFUL_ACCESS_TOKEN: ${{ secrets.CONTENTFUL_ACCESS_TOKEN }}
-     CONTENTFUL_ENVIRONMENT_ID: ${{ secrets.CONTENTFUL_ENVIRONMENT_ID }}
-     NEXT_PUBLIC_SITE_ENV: production
-   steps:
-     - uses: actions/checkout@v3
-     - uses: actions/setup-node@v3
-       with:
-         node-version: 16.13.0
-         cache: yarn
-     - name: Install dependencies
-       run: yarn install --frozen-lockfile
-     - name: Build and Export
-       run: yarn build-static
-     - name: Upload artifact
-       uses: actions/upload-pages-artifact@v1
-       with:
-         path: ./out
+  build:
+    runs-on: ubuntu-latest
+    env:
+      CONTENTFUL_SPACE_ID: ${{ secrets.CONTENTFUL_SPACE_ID }}
+      CONTENTFUL_ACCESS_TOKEN: ${{ secrets.CONTENTFUL_ACCESS_TOKEN }}
+      CONTENTFUL_ENVIRONMENT_ID: ${{ secrets.CONTENTFUL_ENVIRONMENT_ID }}
+      NEXT_PUBLIC_SITE_ENV: production
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16.13.0
+          cache: yarn
+      - name: Install dependencies
+        run: yarn install
+      - name: Build and Export
+        run: yarn build-static
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v1
+        with:
+          path: ./out
 
- deploy:
-   environment:
-     name: github-pages
-     url: ${{ steps.deployment.outputs.page_url }}
-   runs-on: ubuntu-latest
-   needs: build
-   steps:
-     - name: Deploy to GitHub Pages
-       id: deployment
-       uses: actions/deploy-pages@v2
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v2
