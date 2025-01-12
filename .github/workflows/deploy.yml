@@ -27,10 +27,13 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 16.13.0
+          cache: yarn
       - name: Install dependencies
         run: yarn install --frozen-lockfile
-      - name: Build
-        run: yarn build
+      - name: Build and Export
+        run: |
+          yarn build
+          yarn export || yarn next export
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:
