@@ -5,6 +5,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "export": "next export",
+    "build-static": "next build && next export",
     "start": "next start --hostname 127.0.0.1",
     "lint": "next lint"
   },
@@ -13,7 +15,7 @@
     "@react-three/fiber": "^7.0.1",
     "contentful": "^9.2.5",
     "direction": "^2.0.1",
-    "next": "^10.2.3",
+    "next": "^12.3.4",
     "next-compose-plugins": "^2.2.1",
     "react": "17.0.2",
     "react-dom": "17.0.2",
