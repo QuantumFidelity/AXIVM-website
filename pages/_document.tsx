@@ -1,5 +1,6 @@
 import Document, { Head, Html, Main, NextScript } from "next/document";
 import { ServerStyleSheet } from "styled-components";
+
 export const COLORS = {
   light: {
     text: "black",
@@ -14,34 +15,10 @@ export const COLORS = {
     borderAccordion: "white",
   },
 };
-export default class MyDocument extends Document {
-  static async getInitialProps(ctx: any) {
-    const sheet = new ServerStyleSheet();
-    const originalRenderPage = ctx.renderPage;
-    try {
-      ctx.renderPage = () =>
-        originalRenderPage({
-          enhanceApp: (App: any) => (props: any) =>
-            sheet.collectStyles(<App {...props} />),
-        });
-      const initialProps = await Document.getInitialProps(ctx);
-      return {
-        ...initialProps,
-        styles: (
-          <>
-            {initialProps.styles}
-            {sheet.getStyleElement()}
-          </>
-        ),
-      };
-    } finally {
-      sheet.seal();
-    }
-  }
-  render() {
-    // Define component outside render method
-    const MagicScriptTag = () => {
-      let codeToRunOnClient = `
+
+// Define MagicScriptTag as a separate component
+const MagicScriptTag: React.FC = () => {
+  const codeToRunOnClient = `
     (function() {
       function getInitialColorMode() {
         const persistedColorPreference = window.localStorage.getItem("color-mode");
@@ -82,20 +59,45 @@ export default class MyDocument extends Document {
           ? '${COLORS.light.borderAccordion}'
           : '${COLORS.dark.borderAccordion}'
       );
-            root.style.setProperty('--margins-xs', '5px');
-            root.style.setProperty('--margins-sm', '10px');
-            root.style.setProperty('--margins-md', '15px');
-            root.style.setProperty('--margins-lg', '20px');
-            root.style.setProperty('--margins-xl', '30px');
-            root.style.setProperty('--margins-xxl', '70px');
-            root.style.setProperty('--duration-linkBottom', '0.1s');
+      root.style.setProperty('--margins-xs', '5px');
+      root.style.setProperty('--margins-sm', '10px');
+      root.style.setProperty('--margins-md', '15px');
+      root.style.setProperty('--margins-lg', '20px');
+      root.style.setProperty('--margins-xl', '30px');
+      root.style.setProperty('--margins-xxl', '70px');
+      root.style.setProperty('--duration-linkBottom', '0.1s');
       root.style.setProperty('--initial-color-mode', colorMode);
-    })()`;
-      return <script dangerouslySetInnerHTML={{ __html: codeToRunOnClient }} />;
-    };
-    // Add display name
-    MagicScriptTag.displayName = 'MagicScriptTag';
+    })()
+  `;
+  return <script dangerouslySetInnerHTML={{ __html: codeToRunOnClient }} />;
+};
 
+export default class MyDocument extends Document {
+  static async getInitialProps(ctx: any) {
+    const sheet = new ServerStyleSheet();
+    const originalRenderPage = ctx.renderPage;
+    try {
+      ctx.renderPage = () =>
+        originalRenderPage({
+          enhanceApp: (App: any) => (props: any) =>
+            sheet.collectStyles(<App {...props} />),
+        });
+      const initialProps = await Document.getInitialProps(ctx);
+      return {
+        ...initialProps,
+        styles: (
+          <>
+            {initialProps.styles}
+            {sheet.getStyleElement()}
+          </>
+        ),
+      };
+    } finally {
+      sheet.seal();
+    }
+  }
+
+  render() {
     return (
       <Html prefix="og: http://ogp.me/ns#" lang="en">
         <Head />
