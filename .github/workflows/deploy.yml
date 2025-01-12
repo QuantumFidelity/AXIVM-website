@@ -29,7 +29,9 @@ jobs:
           node-version: 16.13.0
           cache: yarn
       - name: Install dependencies
-        run: yarn install
+        run: |
+          yarn install
+          yarn add --dev @types/node
       - name: Build and Export
         run: yarn build-static
       - name: Upload artifact
