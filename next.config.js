@@ -56,10 +56,14 @@ const securityHeaders = () => {
 };
 
 const config = {
+  output: 'export',  // Add this for static export
+  images: {
+    unoptimized: true,  // Required for static export
+  },
+  basePath: process.env.NODE_ENV === 'production' ? '/AXIVM-website' : '',  // Add this for GitHub Pages
   compiler: {
     styledComponents: true,
   },
-  // .env.local doesn't load itself
   env: {
     CONTENTFUL_SPACE_ID: process.env.CONTENTFUL_SPACE_ID,
     CONTENTFUL_ENVIRONMENT_ID: process.env.CONTENTFUL_ENVIRONMENT_ID,
