@@ -2,139 +2,141 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
 const StyledSectionTitle = styled.a`
-  width: 100%;
-  padding: var(--margins-md);
-  display: flex;
-  font-family: Archivo, sans-serif;
-  font-size: 15px;
-  font-weight: 600;
-  cursor: pointer;
-  border-bottom: 1px solid var(--color-border-accordion);
+ width: 100%;
+ padding: var(--margins-md);
+ display: flex;
+ font-family: Archivo, sans-serif;
+ font-size: 15px;
+ font-weight: 600;
+ cursor: pointer;
+ border-bottom: 1px solid var(--color-border-accordion);
 `;
 
 const StyledLi = styled.li<{ isExpanded: boolean }>`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  font-family: Roboto, sans-serif;
-  border-bottom: ${(props) => (props.isExpanded ? "1px" : "0px")} solid
-    var(--color-border-accordion);
+ width: 100%;
+ display: flex;
+ flex-direction: column;
+ font-family: Roboto, sans-serif;
+ border-bottom: ${(props) => (props.isExpanded ? "1px" : "0px")} solid
+   var(--color-border-accordion);
 `;
 
 // Simple icon components without styled-components
 const IconBase: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
-  <svg
-    width="20"
-    height="20"
-    style={{
-      marginLeft: 'var(--margins-lg)',
-      marginRight: 'var(--margins-lg)',
-      color: 'var(--color-text)',
-      flexShrink: 0
-    }}
-    {...props}
-  />
+ <svg
+   width="20"
+   height="20"
+   style={{
+     marginLeft: 'var(--margins-lg)',
+     marginRight: 'var(--margins-lg)',
+     color: 'var(--color-text)',
+     flexShrink: 0
+   }}
+   {...props}
+ />
 );
 
 const SvgPlusIconBold: React.FC = () => (
-  <IconBase viewBox="0 0 24 24" stroke="currentColor" fill="none">
-    <path
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth={3}
-      d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-    />
-  </IconBase>
+ <IconBase viewBox="0 0 24 24" stroke="currentColor" fill="none">
+   <path
+     strokeLinecap="round"
+     strokeLinejoin="round"
+     strokeWidth={3}
+     d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+   />
+ </IconBase>
 );
 
 const SvgMinusLongBoldIcon: React.FC = () => (
-  <IconBase viewBox="0 0 20 20" stroke="currentColor" fill="none">
-    <path
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth={3}
-      d="M14 12H4"
-    />
-  </IconBase>
+ <IconBase viewBox="0 0 20 20" stroke="currentColor" fill="none">
+   <path
+     strokeLinecap="round"
+     strokeLinejoin="round"
+     strokeWidth={3}
+     d="M14 12H4"
+   />
+ </IconBase>
 );
 
 export const AccordionSection = (props: any) => {
-  const { onClick, expandedIndex, index, title, children } = props;
-  const isExpanded = expandedIndex === index || expandedIndex === -1;
-  return (
-    <StyledLi isExpanded={isExpanded}>
-      <StyledSectionTitle
-        onClick={() => (isExpanded ? onClick(-2) : onClick(index))}
-      >
-        {isExpanded ? <SvgMinusLongBoldIcon /> : <SvgPlusIconBold />}
-        {title}
-      </StyledSectionTitle>
-      <AccordionSectionContent isExpanded={isExpanded}>
-        {children}
-      </AccordionSectionContent>
-    </StyledLi>
-  );
+ const { onClick, expandedIndex, index, title, children } = props;
+ const isExpanded = expandedIndex === index || expandedIndex === -1;
+ return (
+   <StyledLi isExpanded={isExpanded}>
+     <StyledSectionTitle
+       onClick={() => (isExpanded ? onClick(-2) : onClick(index))}
+     >
+       <span>
+         {isExpanded ? <SvgMinusLongBoldIcon /> : <SvgPlusIconBold />}
+         {title}
+       </span>
+     </StyledSectionTitle>
+     <AccordionSectionContent isExpanded={isExpanded}>
+       {children}
+     </AccordionSectionContent>
+   </StyledLi>
+ );
 };
 
 const StyledContent = styled.div<{ isExpanded: boolean }>`
-  padding-top: ${(props) => (props.isExpanded ? "var(--margins-xl)" : 0)};
-  padding-bottom: ${(props) => (props.isExpanded ? "var(--margins-xl)" : 0)};
-  padding-left: var(--margins-xl);
-  padding-right: 400px;
-  @media (max-width: 1024px) {
-    padding-right: var(--margins-xl);
-  }
-  transform: ${(props) =>
-    props.isExpanded ? "translate(0)" : "translate(-1)"};
-  height: ${(props) => (props.isExpanded ? "auto" : "0")};
-  transform-origin: top;
-  transition: all 0.3s ease;
-  text-align: justify;
-  overflow: hidden;
+ padding-top: ${(props) => (props.isExpanded ? "var(--margins-xl)" : 0)};
+ padding-bottom: ${(props) => (props.isExpanded ? "var(--margins-xl)" : 0)};
+ padding-left: var(--margins-xl);
+ padding-right: 400px;
+ @media (max-width: 1024px) {
+   padding-right: var(--margins-xl);
+ }
+ transform: ${(props) =>
+   props.isExpanded ? "translate(0)" : "translate(-1)"};
+ height: ${(props) => (props.isExpanded ? "auto" : "0")};
+ transform-origin: top;
+ transition: all 0.3s ease;
+ text-align: justify;
+ overflow: hidden;
 `;
 
 export const AccordionSectionContent = (props: {
-  children: React.ReactNode;
-  isExpanded: boolean;
+ children: React.ReactNode;
+ isExpanded: boolean;
 }) => {
-  return (
-    <StyledContent isExpanded={props.isExpanded}>
-      {props.children}
-    </StyledContent>
-  );
+ return (
+   <StyledContent isExpanded={props.isExpanded}>
+     {props.children}
+   </StyledContent>
+ );
 };
 
 const StyledAccordion = styled.ul`
-  width: 100%;
-  padding: 0;
-  margin-top: var(--margins-md);
-  margin-bottom: var(--margins-md);
-  border-left: 1px solid var(--color-border-accordion);
-  border-right: 1px solid var(--color-border-accordion);
-  li:first-child {
-    border-top: 1px solid var(--color-border-accordion);
-  }
-  list-style-type: none;
+ width: 100%;
+ padding: 0;
+ margin-top: var(--margins-md);
+ margin-bottom: var(--margins-md);
+ border-left: 1px solid var(--color-border-accordion);
+ border-right: 1px solid var(--color-border-accordion);
+ li:first-child {
+   border-top: 1px solid var(--color-border-accordion);
+ }
+ list-style-type: none;
 `;
 
 export const Accordion = (props: { children: React.ReactNodeArray }) => {
-  const [expandedIndex, setExpandedIndex] = useState<number>(-1);
-  let index = -1;
-  useEffect(() => {
-    setExpandedIndex(0);
-  }, []);
-  const childrenWithExpandedIndex = React.Children.map
-    React.ReactNode,
-    React.ReactNode
-  >(props.children, (child) => {
-    index = index + 1;
-    if (React.isValidElement(child)) {
-      return React.cloneElement(child, {
-        expandedIndex,
-        index,
-        onClick: setExpandedIndex,
-      });
-    }
-  });
-  return <StyledAccordion>{childrenWithExpandedIndex}</StyledAccordion>;
+ const [expandedIndex, setExpandedIndex] = useState<number>(-1);
+ let index = -1;
+ useEffect(() => {
+   setExpandedIndex(0);
+ }, []);
+ const childrenWithExpandedIndex = React.Children.map
+   React.ReactNode,
+   React.ReactNode
+ >(props.children, (child) => {
+   index = index + 1;
+   if (React.isValidElement(child)) {
+     return React.cloneElement(child, {
+       expandedIndex,
+       index,
+       onClick: setExpandedIndex,
+     });
+   }
+ });
+ return <StyledAccordion>{childrenWithExpandedIndex}</StyledAccordion>;
 };
