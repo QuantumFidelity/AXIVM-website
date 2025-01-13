@@ -30,45 +30,43 @@ const IconBase = styled.svg`
  flex-shrink: 0;
 `;
 
-export const SvgPlusIconBold = React.forwardRef<SVGSVGElement>((props, ref) => (
- <IconBase
-   ref={ref}
-   viewBox="0 0 24 24"
-   xmlns="http://www.w3.org/2000/svg"
-   stroke="currentColor"
-   fill="none"
-   {...props}
- >
-   <path
-     strokeLinecap="round"
-     strokeLinejoin="round"
-     strokeWidth={3}
-     d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-   />
- </IconBase>
-));
+type SVGProps = React.SVGProps<SVGSVGElement>;
 
-export const SvgMinusLongBoldIcon = React.forwardRef<SVGSVGElement>((props, ref) => (
- <IconBase
-   ref={ref}
-   viewBox="0 0 20 20"
-   xmlns="http://www.w3.org/2000/svg"
-   stroke="currentColor"
-   fill="none"
-   {...props}
- >
-   <path
-     strokeLinecap="round"
-     strokeLinejoin="round"
-     strokeWidth={3}
-     d="M14 12H4"
-   />
- </IconBase>
-));
+export const SvgPlusIconBold: React.FC<SVGProps> = () => {
+ return (
+   <IconBase
+     viewBox="0 0 24 24"
+     xmlns="http://www.w3.org/2000/svg"
+     stroke="currentColor"
+     fill="none"
+   >
+     <path
+       strokeLinecap="round"
+       strokeLinejoin="round"
+       strokeWidth={3}
+       d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+     />
+   </IconBase>
+ );
+};
 
-// Add display names
-SvgPlusIconBold.displayName = 'SvgPlusIconBold';
-SvgMinusLongBoldIcon.displayName = 'SvgMinusLongBoldIcon';
+export const SvgMinusLongBoldIcon: React.FC<SVGProps> = () => {
+ return (
+   <IconBase
+     viewBox="0 0 20 20"
+     xmlns="http://www.w3.org/2000/svg"
+     stroke="currentColor"
+     fill="none"
+   >
+     <path
+       strokeLinecap="round"
+       strokeLinejoin="round"
+       strokeWidth={3}
+       d="M14 12H4"
+     />
+   </IconBase>
+ );
+};
 
 export const AccordionSection = (props: any) => {
  const { onClick, expandedIndex, index, title, children } = props;
